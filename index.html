@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>단꿈e 1주년 사은품 신청</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    /* ---------------- 배너 영역 ---------------- */
+    .banner-wrapper {
+      width: 100%;
+      padding: 10px 0 4px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .banner-picture {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .banner-picture img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .banner-picture {
+        max-width: 92%;
+      }
+    }
+
+    /* ---------------- 본문 영역 ---------------- */
+    .content-wrapper {
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+      text-align: center;
+    }
+
+    .info-box {
+      background-color: #ffffff;
+      border: 1px solid #d8d8d8;
+      border-radius: 16px;
+      padding: 20px 16px;
+      margin: 16px auto 28px;
+      max-width: 760px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      /* 부드러운 사라짐 효과를 위해 transition 추가 (선택사항) */
+      transition: opacity 0.5s ease; 
+    }
+
+    .info-box strong {
+      color: #ff7a00;
+      font-weight: 700;
+    }
+
+    /* ---------------- iframe (폼 영역) ---------------- */
+    .iframe-container {
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .iframe-container iframe {
+      width: 100%;
+      border: 0;
+      display: block;
+      min-height: 2000px;
+      transition: height 0.25s ease;
+    }
+
+    @media (max-width: 768px) {
+      .iframe-container iframe {
+        min-height: 1250px;
+      }
+    }
+
+    /* ---------------- Bottom Decoration ---------------- */
+    .footer-deco {
+      width: 100%;
+      margin-top: 40px;
+    }
+    
+    .footer-deco img {
+      display: block;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+  </style>
+
+  <script>
+    // 1. iframe 높이 조절 (기존 기능)
+    window.addEventListener("message", function (event) {
+      if (!event.data || event.data.type !== "setHeight") return;
+
+      const iframe = document.getElementById("giftFormFrame");
+      if (!iframe) return;
+
+      const newHeight = Math.max(event.data.height, 600);
+      iframe.style.height = newHeight + "px";
+    });
+
+    // 2. 제출 완료 처리 (안내 박스 숨김 + 상단 이동)
+    window.addEventListener("message", function (event) {
+      if (!event.data || event.data.type !== "formSubmitted") return;
+
+      // (1) 안내 문구 박스 숨기기
+      const infoBox = document.querySelector(".info-box");
+      if (infoBox) {
+        infoBox.style.display = "none";
+      }
+
+      // (2) 페이지 최상단으로 부드럽게 이동
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</head>
+
+<body>
+  <div class="page-wrapper">
+
+    <header class="banner-wrapper">
+      <picture class="banner-picture">
+        <source media="(max-width: 768px)" srcset="banner-main-mo.png" />
+        <img src="banner-main.png" alt="단꿈e 1주년 기념 특별 사은품 증정 이벤트" />
+      </picture>
+    </header>
+
+    <main class="content-wrapper">
+
+      <section class="info-box">
+        12월, 종합 프리패스[12개월 수강권] 결제 고객분께<br />
+        <strong>단꿈아이 대모험 시리즈 2종</strong>이 지급될 예정입니다.<br />
+        하단 사은품 선택 항목에서<br />
+        <strong>수령을 희망하는 2종</strong>을 선택해 주세요.<br /><br />
+
+        선택하신 사은품은 <strong>1월 31일(토)</strong> 이후 순차 발송될 예정이며,<br />
+        정확한 배송을 위해 <strong>이름, 연락처, 주소</strong> 등<br />
+        정보를 정확하게 입력 부탁드립니다.<br /><br />
+
+        <span style="color:#ff6d48;">※ 주소지 오기입으로 인한 반송 건은 재발송 되지 않습니다.</span><br />
+        <span style="color:#ff6d48;">※ 결제일 이후 2주 이내에 입력해 주시기 바랍니다.</span>
+      </section>
+
+      <div class="iframe-container">
+        <iframe
+          id="giftFormFrame"
+          src="https://script.google.com/macros/s/AKfycby7Mlx3xH43bSgXZ8lJ9v9U8PktbOG7Nr3XFZKgHpkSjn0APQ6ZxgYOvYqAiSotx2ym/exec"
+          title="단꿈e 1주년 사은품 신청 폼">
+        </iframe>
+      </div>
+
+      <footer class="footer-deco">
+        <img src="footer-bottom.png" alt="" />
+      </footer>
+
+    </main>
+
+  </div>
+</body>
+</html>
