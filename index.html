@@ -111,8 +111,8 @@
     }
   </style>
 
-  <script>
-    // 1. iframe 높이 조절 (자식(Apps Script)이 보낸 높이에 따라 iframe 높이를 조절)
+<script>
+    // 1. iframe 높이 조절 (기존과 동일)
     window.addEventListener("message", function (event) {
       if (!event.data || event.data.type !== "setHeight") return;
 
@@ -123,7 +123,7 @@
       iframe.style.height = newHeight + "px";
     });
 
-    // 2. 제출 완료 처리 (안내 박스 숨김 + 상단 이동)
+    // 2. 제출 완료 처리 (안내 박스 숨김 + 상단 이동) - [수정됨: setTimeout 추가]
     window.addEventListener("message", function (event) {
       if (!event.data || event.data.type !== "formSubmitted") return;
 
@@ -133,11 +133,14 @@
         infoBox.style.display = "none";
       }
 
-      // (2) 페이지 최상단으로 즉시 이동 (Smooth -> Instant/0,0으로 변경)
-      // window.scrollTo({ top: 0, behavior: 'instant' }); // 최신 브라우저 지원
-      window.scrollTo(0, 0); // 모든 브라우저에서 작동하는 표준 방법 사용
+      // (2) 페이지 최상단으로 이동
+      // 👇 setTimeout을 이용해 50ms 후 실행하여 확실하게 스크롤 실행 보장
+      setTimeout(() => {
+        window.scrollTo(0, 0); // 즉시 최상단으로 이동
+      }, 50); // 50ms의 아주 짧은 지연 시간 추가
     });
   </script>
+  
 </head>
 
 <body>
