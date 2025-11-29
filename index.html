@@ -111,8 +111,8 @@
     }
   </style>
 
-<script>
-    // 1. iframe 높이 조절 (기존과 동일)
+  <script>
+    // 1. iframe 높이 조절
     window.addEventListener("message", function (event) {
       if (!event.data || event.data.type !== "setHeight") return;
 
@@ -123,21 +123,29 @@
       iframe.style.height = newHeight + "px";
     });
 
-    // 2. 제출 완료 처리 (안내 박스 숨김 + 상단 이동) - [수정됨: setTimeout 추가]
+    // 2. 제출 완료 처리 (안내 박스 숨김 + 설문 iframe 상단으로 스크롤)
     window.addEventListener("message", function (event) {
       if (!event.data || event.data.type !== "formSubmitted") return;
 
-      // (1) 안내 문구 박스 숨기기
+      // (1) 안내 문구 박스 숨기기 (있으면)
       const infoBox = document.querySelector(".info-box");
       if (infoBox) {
         infoBox.style.display = "none";
       }
 
-      // (2) 페이지 최상단으로 이동
-      // 👇 setTimeout을 이용해 50ms 후 실행하여 확실하게 스크롤 실행 보장
+      // (2) 설문 iframe의 시작 위치로 자연스럽게 스크롤
       setTimeout(() => {
-        window.scrollTo(0, 0); // 즉시 최상단으로 이동
-      }, 50); // 50ms의 아주 짧은 지연 시간 추가
+        const iframe = document.getElementById("surveyFormFrame");
+        if (!iframe) return;
+
+        const rect = iframe.getBoundingClientRect();
+        const targetY = window.scrollY + rect.top - 20; // 상단 여백 20px
+
+        window.scrollTo({
+          top: targetY,
+          behavior: "smooth"
+        });
+      }, 100); // iframe 높이 조정 후 실행되도록 약간 딜레이
     });
   </script>
   
@@ -154,9 +162,17 @@
     </header>
 
     <main class="content-wrapper">
+      <!-- 필요하다면 안내 박스를 여기에 추가해서 사용 가능
+      <div class="info-box">
+        <strong>단꿈e 메타버스 설문 안내</strong><br>
+        설문 참여 전 안내 문구를 여기에 넣을 수 있습니다.
+      </div>
+      -->
+
       <div class="iframe-container">
         <iframe
-          id="surveyFormFrame"  src="https://script.google.com/macros/s/AKfycbwp3OMGUxrW3iDXrM2KtAEw8YmbXMSfGXVtm1Old2gHDYtMVD1vT-TkTcEMul_K9Qk/exec"
+          id="surveyFormFrame"
+          src="https://script.google.com/macros/s/AKfycbzeTyJaYiXtcHXKxKS7CCQivApOvijMbT9ITlTpTIOr-60P2mcFmbJW1QEzzs9oGgEH/exec"
           title="단꿈e 메타버스 설문조사폼">
         </iframe>
       </div>
@@ -170,3 +186,4 @@
   </div>
 </body>
 </html>
+
